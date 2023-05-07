@@ -4,6 +4,7 @@
 #include <Obj.r.h>
 #include "../util/Activators.r.h"
 #include "../util/Initializers.r.h"
+#include "../horr.r.h"
 
 #ifdef __cplusplus
 extern 'C'
@@ -20,23 +21,42 @@ extern 'C'
     {
         ObjClass_st _;
         // other members go here
-        void (*run)();
+        void *(*build)(void *layer, void *inputnode);
+        void *(*eval)(void *layer, void *input);
     };
     struct Block
     {
         const Obj_st _;
         // other members go here
         const void *meta;
+        const void *graphNode;
     };
     /*--------------------------------*/
-    static inline blockMeta(Block_t b)
+    static inline void *blockMeta(Block_t b)
     {
         return b->meta;
     }
-    static inline setBlockMeta(Block_t b, void *v)
+    static inline void setBlockMeta(Block_t b, void *v)
     {
-        return *(void **)b->meta = v;
+        *(void **)&b->meta = v;
     }
+    /// @brief build a layer
+    /// @param layer layer to build
+    /// @param inputnode input computation node to use
+    /// @return layer's computation output node
+    static inline void *buildLayer(Block_t layer, void *inputnode)
+    {
+        return ((BlockClass_t)classOf(layer))->build(layer, inputnode);
+    }
+    static inline void setGraphNode(Block_t layer, void *node)
+    {
+        *(void **)&layer->graphNode = node;
+    }
+    static inline void *graphNode(Block_t layer)
+    {
+        return layer->graphNode;
+    }
+
 #ifdef __cplusplus
 }
 #endif

@@ -31,8 +31,7 @@ extern 'C'
     {
         if (v->noOfKerns)
         {
-            printf("kernel is set already, instead call setKernI()\n");
-            exit(-1);
+            fatalErr("%s: kernel is set already, instead call setKernI()\n", "WeightBlock");
         }
         if (n > 1)
         {
@@ -46,6 +45,8 @@ extern 'C'
     {
         if (n > 1)
             return setKerns(v, malloc(n * sizeof(void *)), n);
+        else
+            return setKerns(v, 0, n);
     }
     static inline void brkKerns(WeightBlock_t w)
     {
@@ -85,6 +86,23 @@ extern 'C'
             b->kerns[i] = n;
         attach(n);
     }
+    static inline void *positionalKernel(va_list * arg, int rank, int *shape, void *(*defaultInit)(int, int *))
+    {
+        void *kernel = va_arg(*arg, void *);
+        return kernel = kernel ? Initializer.get(kernel, rank, shape) : defaultInit(rank, shape);
+    }
+    static inline void *optionalKernel(va_list * arg, int rank, int *shape)
+    {
+        void *kernel = va_arg(*arg, void *);
+        if (kernel)
+            kernel = Initializer.get(kernel, rank, shape);
+        return kernel;
+    }
+    static inline int noOfKerns(WeightBlock_t w)
+    {
+        return w->noOfKerns;
+    }
+
 #ifdef __cplusplus
 }
 #endif

@@ -8,16 +8,6 @@ static void dstr(void *obj)
 {
     brkKerns(obj);
 }
-/*
-//implement if necessary
-static void cstr(void *obj, va_list *arg){
-    printf("WeightBlock constructor \n");
-}
-//other implentation go here
-static int rpr(const void *b, char *str, int length){
-    return printf("WeightBlock %p \n", b);
-}
-*/
 static WeightBlockClass_st Class;
 const void *WeightBlock = 0;
 
@@ -35,4 +25,3 @@ static void __attribute__((constructor)) weightblockClassf()
     (*(ObjClass_t)&Class).super = Block;
 }
 const fn_t weightblockLC = weightblockClassf;
-// other implentation go here

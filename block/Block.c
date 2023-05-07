@@ -1,22 +1,25 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <stdio.h>
 #include "Block.h"
 #include "Block.r.h"
 
-/*
-//implement if necessary
-static void cstr(void *obj, va_list *arg){
-    printf("Block constructor \n");
+static void build()
+{
+    err("%s: default build(), override this function\n", "Block");
 }
-static void dstr(void *obj){
-    printf("Block destructor \n");
+
+static void eval()
+{
+    err("%s: default eval(), override this function\n", "Block");
 }
-//other implentation go here
-static int rpr(const void *b, char *str, int length){
-    return printf("Block %p \n", b);
+
+static void *evalLayer(Block_t layer, void *input)
+{
+    return ((BlockClass_t)classOf(layer))->eval(layer, input);
 }
-*/
+
 static BlockClass_st Class;
 const void *Block = 0;
 
@@ -32,6 +35,8 @@ static void __attribute__((constructor)) blockClassf()
     (*(ObjClass_t)&Class).name = name;
     (*(ObjClass_t)&Class).size = sizeof(Block_st);
     (*(ObjClass_t)&Class).super = Obj;
+    Class.build = (void *(*)(void *, void *))build;
+    Class.eval = (void *(*)(void *, void *))eval;
+    *(void **)&horr.eval = evalLayer;
 }
 const fn_t blockLC = blockClassf;
-// other implentation go here
