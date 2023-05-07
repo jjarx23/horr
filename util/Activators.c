@@ -10,8 +10,8 @@ static void *tanh(void *x);
 static void __attribute__((constructor)) actClassf()
 {
     jao$$horrCnstr$$();
-    *(void **)horr.activators.sigmoid = sig;
-    *(void **)horr.activators.tanh = tanh;
+    *(void **)&horr.activators.sigmoid = sig;
+    *(void **)&horr.activators.tanh = tanh;
 }
 
 static void *tanh(void *x)
