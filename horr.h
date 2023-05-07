@@ -1,7 +1,9 @@
 #ifndef HORR_H
 #define HORR_H
 
-#include "Flow.h"
+#define HORR_V_MAJ 0
+#define HORR_V_MIN 2
+#include <Flow.h>
 
 #ifdef __cplusplus
 extern 'C'
@@ -10,6 +12,8 @@ extern 'C'
     typedef void *(*Initializer_t)(int rank, int *shape, ...);
     typedef struct horr
     {
+        void *(*eval)(void *model, void *input);
+        void (*version)(int *major, int *minor);
         struct
         {
             int *(*INT)(int length, ...);
@@ -29,10 +33,13 @@ extern 'C'
         } initializers;
         struct
         {
-            void *(*convolution)(int out, int in, int convRank, int *filterShape, void *kernInitializer, void *activator);
+            void *(*model)(void *layer1, ...) __attribute__((sentinel));
+            void *(*convolution)(int out, int in, int convRank, int *filterShape, void *kernInitializer, void *biasInitializer, void *activator);
+            void *(*fullynetted)(int out, int in, void *kernelInit, void *biasInit, void *activator);
         } nn;
     } horr_t;
-    extern const horr_t horr;
+    extern const horr_t *horr_;
+#define horr (*horr_)
 // other declarations go here
 #ifdef __cplusplus
 }

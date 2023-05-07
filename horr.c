@@ -32,12 +32,14 @@ static int *dblArray(int count, ...)
     va_end(v);
     return a;
 }
+int v = 0;
+static horr_t h = {0};
+const horr_t *horr_ = &h;
 
-const horr_t horr = {0};
 void __attribute__((constructor)) jao$$horrCnstr$$()
 {
-    if (horr.array.INT)
+    if (h.array.INT)
         return;
-    *(void **)&horr.array.INT = intArray;
-    *(void **)&horr.array.DBL = dblArray;
+    *(void **)&h.array.INT = intArray;
+    *(void **)&h.array.DBL = dblArray;
 }
