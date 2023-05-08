@@ -1,8 +1,8 @@
 TITLE := horr
 OUT := $(TITLE)
 CC := gcc
-CFLAGS := -c -I../Flow -I../jab -I../computation_graph -I../Object -I.
-LDFLAGS := -L$$HOME -lalloc -ljab -lflow -lcomputegraph -lobj
+CFLAGS := -c -I../objekt -I../jcg -I../flow -I../horr
+LDFLAGS := -L$$HOME -lyhunk -lobjekt -lflow -ljcg -lhorr
 GCFLAGS := -ggdb -Og
 OBJDIR := ../builds/$(TITLE)_obj/
 SRCDIRS := $(wildcard */*/*/) $(wildcard */*/) $(wildcard */)
