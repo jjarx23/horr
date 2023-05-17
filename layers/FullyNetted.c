@@ -14,7 +14,7 @@ static void *build(void *layer, void *input)
 {
     if (!graphNode(layer))
     {
-        void *corr = jCG.Xcorrelation(input, jCG.var(kernI(layer, 0)));
+        void *corr = jCG.dot(input, jCG.var(kernI(layer, 0)));
         if (noOfKerns(layer) == 2)
             jCG.add(corr, jCG.var(kernI(layer, 1)));
         setGraphNode(layer, corr);
