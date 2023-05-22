@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <jCG.h>
 #include "Activators.h"
 #include "Activators.r.h"
 
@@ -26,5 +27,5 @@ static void *tanh(void *x)
 }
 static void *sig(void *x)
 {
-    return NULL;
+    return jCG.divide(jCG.one, jCG.add(jCG.one, jCG.exp(jCG.neg(x))));
 }
